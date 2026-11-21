@@ -1,0 +1,1624 @@
+@import "tailwindcss";
+
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,700;9..144,800;9..144,900&family=Inter:wght@400;500;600;700&family=Caveat:wght@600;700&display=swap');
+
+/* =====================================================
+   PEBBLEPUPS UAE — DESIGN SYSTEM
+   Colors & Typography matched to original site
+   ===================================================== */
+
+:root {
+  --font-display: 'Fraunces', 'Rockwell', Georgia, serif;
+  --font-scrawl: 'Caveat', 'Patrick Hand', cursive, sans-serif;
+  --font-body: 'Plus Jakarta Sans', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+
+  --color-milk: #fffdf8;
+  --color-honey: #fff1d8;
+  --color-toffee: #c47a30;
+  --color-cocoa: #2a170e;
+  --color-cocoa-70: rgba(42, 23, 14, 0.7);
+  --color-crust: #fbe3b4;
+  --color-bark: #a24a1a;
+  --color-caramel: #e4a352;
+  --color-paw: #f2be6b;
+  --color-wa-green: #1a7345;
+  --color-wa-green-hover: #15603a;
+
+  --header-h: 4.5rem;
+  --gutter: clamp(1.25rem, 5vw, 4rem);
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-body);
+  background-color: var(--color-milk);
+  color: var(--color-cocoa);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* =====================================================
+   TYPOGRAPHY (Rounded Serif + Handwritten Script)
+   ===================================================== */
+.font-plush {
+  font-family: var(--font-display);
+  font-weight: 800;
+  letter-spacing: -0.025em;
+  font-variation-settings: "SOFT" 100, "WONK" 1;
+}
+
+.font-scrawl {
+  font-family: var(--font-scrawl);
+  font-weight: 700;
+  letter-spacing: 0.01em;
+}
+
+/* =====================================================
+   SCALLOP / WAVE DECORATIONS
+   ===================================================== */
+.scallop-top {
+  position: relative;
+}
+.scallop-top::before {
+  content: '';
+  display: block;
+  width: 100%;
+  height: 44px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='76' height='44' viewBox='0 0 76 44'%3E%3Cpath d='M0 44V27A38 25 0 0 1 76 27V44Z' fill='%23fffdf8'/%3E%3Cpath d='M0 27A38 25 0 0 1 76 27' fill='none' stroke='%232a170e' stroke-width='2'/%3E%3C/svg%3E");
+  background-size: 76px 44px;
+  background-repeat: repeat-x;
+  margin-top: -1px;
+}
+
+.scallop-cream-top::before {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='76' height='44' viewBox='0 0 76 44'%3E%3Cpath d='M0 44V27A38 25 0 0 1 76 27V44Z' fill='%23fff1d8'/%3E%3Cpath d='M0 27A38 25 0 0 1 76 27' fill='none' stroke='%232a170e' stroke-width='2'/%3E%3C/svg%3E");
+}
+
+.wavy-underline {
+  position: relative;
+  display: inline-block;
+}
+.wavy-underline::after {
+  content: '';
+  position: absolute;
+  bottom: -8px;
+  left: 0;
+  width: 100%;
+  height: 6px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='12' viewBox='0 0 220 12'%3E%3Cpath d='M4 7c18-5 30 4 48-.5s28-4.5 46 0 30 4 48-.5 30-4.5 48 0 18 1 22 0' fill='none' stroke='%23c47a30' stroke-width='3' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-size: 220px 12px;
+  background-repeat: repeat-x;
+}
+
+/* =====================================================
+   BUTTONS
+   ===================================================== */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.75rem;
+  border-radius: 9999px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: none;
+  outline: none;
+  white-space: nowrap;
+}
+
+.btn-primary {
+  background: var(--color-bark);
+  color: white;
+}
+.btn-primary:hover {
+  background: #8a3c14;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 16px rgba(162, 74, 26, 0.35);
+}
+
+.btn-ghost {
+  background: white;
+  color: var(--color-cocoa);
+  border: 2px solid var(--color-cocoa);
+}
+.btn-ghost:hover {
+  background: var(--color-honey);
+  transform: translateY(-1px);
+}
+
+.btn-whatsapp {
+  background: var(--color-wa-green);
+  color: white;
+}
+.btn-whatsapp:hover {
+  background: var(--color-wa-green-hover);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 16px rgba(26, 115, 69, 0.4);
+}
+
+.btn-toffee {
+  background: var(--color-bark);
+  color: white;
+}
+.btn-toffee:hover {
+  background: #8a3c14;
+  transform: translateY(-1px);
+}
+
+/* =====================================================
+   HEADER
+   ===================================================== */
+.tp-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 50;
+  background: var(--color-milk);
+  transition: box-shadow 0.3s ease;
+}
+.tp-header.scrolled {
+  box-shadow: 0 2px 20px rgba(42, 23, 14, 0.08);
+}
+.tp-header__bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 var(--gutter);
+  height: var(--header-h);
+}
+.tp-header__brand {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  text-decoration: none;
+  color: var(--color-cocoa);
+}
+.tp-header__logo {
+  width: 48px;
+  height: 48px;
+  object-fit: contain;
+  border-radius: 50%;
+  border: 2.5px solid var(--color-cocoa);
+  padding: 2px;
+  background: var(--color-honey);
+}
+.tp-header__name {
+  font-size: 1.1rem;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+}
+.tp-header__nav ul {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.tp-nav-link {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  padding: 0.4rem 0.7rem;
+  text-decoration: none;
+  color: var(--color-cocoa);
+  font-size: 0.9rem;
+  font-weight: 500;
+  border-radius: 9999px;
+  transition: all 0.2s ease;
+  position: relative;
+}
+.tp-nav-link:hover, .tp-nav-link.active {
+  color: var(--color-toffee);
+}
+.tp-nav-link .paw-icon {
+  width: 12px;
+  height: 12px;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  color: var(--color-toffee);
+}
+.tp-nav-link:hover .paw-icon, .tp-nav-link.active .paw-icon {
+  opacity: 1;
+}
+.tp-header__end {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+/* =====================================================
+   CURTAIN INTRO ANIMATION
+   ===================================================== */
+.tp-curtain {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  pointer-events: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-crust);
+}
+.tp-curtain[data-hidden="true"] {
+  display: none;
+}
+.tp-curtain__content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+}
+.tp-curtain__note {
+  font-size: 1.5rem;
+  color: var(--color-bark);
+  margin: 1rem 0 0;
+}
+
+/* =====================================================
+   HERO SECTION (Tighter spacing below CTA buttons)
+   ===================================================== */
+.tp-hero {
+  min-height: auto;
+  background: linear-gradient(180deg, #fffdf8 0%, #fff1d8 100%);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  overflow: hidden;
+  position: relative;
+  padding-top: calc(var(--header-h) + 0.5rem);
+  gap: 1.15rem;
+}
+
+.tp-hero__copy {
+  padding: clamp(0.85rem, 2vh, 1.4rem) var(--gutter) 0.25rem;
+  max-width: 780px;
+  margin: 0 auto;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 2;
+}
+
+.tp-hero__note {
+  font-size: 1.45rem;
+  color: var(--color-toffee);
+  margin: 0 0 0.35rem;
+  position: relative;
+  display: inline-block;
+}
+
+.tp-hero__title {
+  font-size: clamp(2.4rem, 4.6vw, 4.1rem);
+  line-height: 1.02;
+  letter-spacing: -0.025em;
+  color: var(--color-cocoa);
+  margin: 0 0 0.75rem;
+}
+
+.tp-hero__lede {
+  font-size: 0.98rem;
+  color: var(--color-cocoa-70);
+  line-height: 1.55;
+  max-width: 490px;
+  margin: 0 auto 1.1rem;
+}
+
+.tp-hero__actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.75rem;
+  
+}
+
+/* =====================================================
+   HERO STAGE (Staggered Doors + Mascot + Diamond Quilt)
+   ===================================================== */
+.tp-hero__stage {
+  width: 100%;
+  margin-top: 0;
+  position: relative;
+}
+
+.tp-hero-lineup {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: clamp(0.75rem, 2vw, 1.75rem);
+  list-style: none;
+  margin: 0 auto;
+  padding: 1.25rem 1rem 0;
+  max-width: 1360px;
+  padding: 4rem 1rem 0
+}
+
+.tp-hero-door-item {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.tp-hero-door-item .tp-door__frame {
+  width: clamp(120px, 11vw, 155px);
+  border-radius: 80px 80px 0 0;
+  border-bottom: none;
+}
+
+.tp-hero-bubble {
+  position: absolute;
+  top: -36px;
+  background: #fffdf8;
+  border: 2px solid var(--color-cocoa);
+  border-radius: 9999px;
+  padding: 2px 12px;
+  font-family: 'Caveat', cursive;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--color-cocoa);
+  white-space: nowrap;
+  opacity: 0;
+  transform: translateY(6px);
+  transition: all 0.2s ease;
+  pointer-events: none;
+  z-index: 5;
+}
+.tp-hero-door-item:hover .tp-hero-bubble {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.tp-hero-mascot {
+  flex-shrink: 0;
+  z-index: 6;
+  margin-bottom: -14px;
+  transition: transform 0.3s ease;
+}
+.tp-hero-mascot:hover {
+  transform: translateY(-4px);
+}
+
+.tp-quilt-banner {
+  position: relative;
+  z-index: 4;
+  width: 100%;
+}
+
+.tp-quilt-fabric {
+  height: 75px;
+  width: 100%;
+  background-color: #fbe3b4;
+  background-image:
+    repeating-linear-gradient(
+      45deg,
+      rgba(196, 122, 48, 0.16) 0px,
+      rgba(196, 122, 48, 0.16) 1.5px,
+      transparent 1.5px,
+      transparent 36px
+    ),
+    repeating-linear-gradient(
+      -45deg,
+      rgba(196, 122, 48, 0.16) 0px,
+      rgba(196, 122, 48, 0.16) 1.5px,
+      transparent 1.5px,
+      transparent 36px
+    );
+}
+
+/* =====================================================
+   PUPPY LINEUP (arched door style for MeetThePups)
+   ===================================================== */
+.tp-lineup {
+  display: flex;
+  align-items: flex-end;
+  gap: 1rem;
+  list-style: none;
+  margin: 0;
+  padding: 0 var(--gutter) 0;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+.tp-lineup::-webkit-scrollbar {
+  display: none;
+}
+
+.tp-door {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex-shrink: 0;
+  cursor: pointer;
+  text-decoration: none;
+  color: var(--color-cocoa);
+}
+.tp-door__frame {
+  position: relative;
+  width: 160px;
+  height: 220px;
+  border-radius: 80px 80px 8px 8px;
+  overflow: hidden;
+  transition: transform 0.3s ease;
+  border: 3px solid var(--color-cocoa);
+}
+.tp-door:hover .tp-door__frame {
+  transform: translateY(-6px);
+}
+.tp-door__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s ease;
+}
+.tp-door:hover .tp-door__img {
+  transform: scale(1.06);
+}
+.tp-door__status {
+  position: absolute;
+  top: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: white;
+  border: 2px solid var(--color-cocoa);
+  border-radius: 9999px;
+  padding: 2px 10px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+.tp-door__status--available {
+  background: white;
+  color: var(--color-cocoa);
+}
+.tp-door__name {
+  font-weight: 700;
+  font-size: 1rem;
+  margin-top: 0.75rem;
+  text-align: center;
+}
+.tp-door__sub {
+  font-size: 0.8rem;
+  color: var(--color-cocoa-70);
+  text-align: center;
+  margin-top: 2px;
+}
+
+/* =====================================================
+   QUILT BOTTOM STRIP
+   ===================================================== */
+.quilt-strip {
+  background: var(--color-crust);
+  border-top: 3px solid var(--color-cocoa);
+  position: relative;
+  padding-top: 20px;
+}
+
+/* =====================================================
+   SECTION SHARED STYLES
+   ===================================================== */
+.section {
+  padding: clamp(3rem, 8vw, 6rem) var(--gutter);
+}
+.section-title {
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  line-height: 1.1;
+  margin: 0 0 0.5rem;
+  color: var(--color-cocoa);
+}
+.section-sub {
+  font-size: 1rem;
+  color: var(--color-cocoa-70);
+  margin-bottom: 2.5rem;
+}
+.section-label {
+  font-size: 0.85rem;
+  color: var(--color-toffee);
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  margin-bottom: 0.4rem;
+}
+
+/* =====================================================
+   PUPPY GRID / CARDS
+   ===================================================== */
+.puppy-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 2rem 1.5rem;
+  margin-top: 2rem;
+}
+
+.puppy-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+  text-decoration: none;
+  color: var(--color-cocoa);
+}
+
+.puppy-card__photo-wrap {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 4px solid white;
+  box-shadow: 0 0 0 3px var(--color-cocoa);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.puppy-card:hover .puppy-card__photo-wrap {
+  transform: scale(1.04);
+  box-shadow: 0 0 0 3px var(--color-toffee);
+}
+.puppy-card__photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s ease;
+}
+.puppy-card:hover .puppy-card__photo {
+  transform: scale(1.07);
+}
+
+.puppy-card__status-badge {
+  position: absolute;
+  top: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: white;
+  border: 2px solid var(--color-cocoa);
+  border-radius: 9999px;
+  padding: 2px 10px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  white-space: nowrap;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+}
+.puppy-card__status-badge--available {
+  color: var(--color-cocoa);
+}
+.puppy-card__status-badge--gone {
+  background: var(--color-honey);
+  color: var(--color-bark);
+  border-color: var(--color-bark);
+}
+
+.puppy-card__video-badge {
+  position: absolute;
+  bottom: 12px;
+  left: 12px;
+  background: rgba(42, 23, 14, 0.85);
+  color: white;
+  border-radius: 9999px;
+  padding: 2px 8px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 3px;
+}
+
+.puppy-card__deco {
+  position: absolute;
+  font-size: 1rem;
+}
+
+.puppy-card__name {
+  font-weight: 800;
+  font-size: 1rem;
+  margin-top: 0.85rem;
+  text-align: center;
+  line-height: 1.2;
+}
+.puppy-card__info {
+  font-size: 0.8rem;
+  color: var(--color-cocoa-70);
+  text-align: center;
+  margin-top: 0.2rem;
+}
+
+/* =====================================================
+   FILTERS
+   ===================================================== */
+.filter-box {
+  border: 2px solid var(--color-cocoa);
+  border-radius: 1rem;
+  padding: 1.25rem 1.5rem;
+  margin-bottom: 1.5rem;
+  background: white;
+  position: relative;
+}
+.filter-box::before {
+  content: '';
+  position: absolute;
+  top: -1px;
+  left: 1.5rem;
+  width: 60px;
+  height: 10px;
+  background: var(--color-honey);
+  border-radius: 4px;
+}
+.filter-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  margin-bottom: 0.6rem;
+}
+.filter-row:last-child {
+  margin-bottom: 0;
+}
+.filter-label {
+  font-size: 0.85rem;
+  color: var(--color-cocoa-70);
+  font-weight: 500;
+  min-width: 70px;
+}
+.filter-pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.3rem 0.9rem;
+  border-radius: 9999px;
+  border: 2px solid var(--color-cocoa);
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  background: white;
+  color: var(--color-cocoa);
+}
+.filter-pill:hover {
+  background: var(--color-honey);
+}
+.filter-pill.active {
+  background: var(--color-cocoa);
+  color: white;
+}
+
+/* =====================================================
+   MODAL
+   ===================================================== */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(42, 23, 14, 0.6);
+  z-index: 80;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  backdrop-filter: blur(4px);
+}
+.modal-panel {
+  background: var(--color-milk);
+  border-radius: 1.5rem;
+  border: 3px solid var(--color-cocoa);
+  max-width: 640px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  position: relative;
+  padding: 2rem;
+}
+.modal-close {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 2px solid var(--color-cocoa);
+  background: white;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  transition: all 0.2s;
+}
+.modal-close:hover {
+  background: var(--color-honey);
+}
+
+/* =====================================================
+   PROCESS STEPS
+   ===================================================== */
+.steps-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 2rem;
+  margin-top: 2.5rem;
+}
+.step-card {
+  background: white;
+  border: 2px solid var(--color-cocoa);
+  border-radius: 1.25rem;
+  padding: 1.75rem;
+  position: relative;
+  overflow: hidden;
+}
+.step-card::before {
+  content: attr(data-step);
+  position: absolute;
+  top: -0.5rem;
+  right: 1rem;
+  font-size: 5rem;
+  font-weight: 900;
+  color: var(--color-honey);
+  line-height: 1;
+  pointer-events: none;
+  font-family: var(--font-display);
+}
+.step-card__title {
+  font-weight: 700;
+  font-size: 1.1rem;
+  margin-bottom: 0.5rem;
+}
+.step-card__desc {
+  font-size: 0.9rem;
+  color: var(--color-cocoa-70);
+  line-height: 1.6;
+}
+
+/* =====================================================
+   TRUST BADGES
+   ===================================================== */
+.trust-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+.trust-card {
+  background: white;
+  border: 2px solid var(--color-crust);
+  border-radius: 1.25rem;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.trust-card__icon {
+  font-size: 2rem;
+}
+.trust-card__title {
+  font-weight: 700;
+  font-size: 0.95rem;
+}
+.trust-card__desc {
+  font-size: 0.85rem;
+  color: var(--color-cocoa-70);
+  line-height: 1.5;
+}
+
+/* =====================================================
+   FAQ
+   ===================================================== */
+.faq-item {
+  border: 2px solid var(--color-crust);
+  border-radius: 1rem;
+  overflow: hidden;
+  margin-bottom: 0.75rem;
+  transition: border-color 0.2s;
+}
+.faq-item.open {
+  border-color: var(--color-cocoa);
+}
+.faq-question {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.1rem 1.25rem;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.95rem;
+  background: white;
+  transition: background 0.2s;
+  user-select: none;
+}
+.faq-item.open .faq-question {
+  background: var(--color-honey);
+}
+.faq-answer {
+  padding: 0 1.25rem;
+  font-size: 0.9rem;
+  line-height: 1.65;
+  color: var(--color-cocoa-70);
+  background: white;
+  overflow: hidden;
+}
+
+/* =====================================================
+   FOOTER
+   ===================================================== */
+.tp-footer {
+  background: var(--color-cocoa);
+  color: rgba(255, 253, 248, 0.8);
+  padding: clamp(3rem, 6vw, 5rem) var(--gutter) 2rem;
+}
+.tp-footer__grid {
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  gap: 3rem;
+  margin-bottom: 3rem;
+}
+.tp-footer__brand-title {
+  font-size: 2rem;
+  color: var(--color-milk);
+  margin-bottom: 0.75rem;
+}
+.tp-footer__brand-desc {
+  font-size: 0.9rem;
+  line-height: 1.6;
+  max-width: 280px;
+  margin-bottom: 1.5rem;
+}
+.tp-footer__col-title {
+  color: var(--color-toffee);
+  font-weight: 700;
+  margin-bottom: 1rem;
+  font-size: 0.95rem;
+}
+.tp-footer__links {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.tp-footer__links a {
+  color: rgba(255, 253, 248, 0.75);
+  text-decoration: none;
+  font-size: 0.9rem;
+  transition: color 0.2s;
+}
+.tp-footer__links a:hover {
+  color: var(--color-milk);
+}
+.tp-footer__contact-item {
+  font-size: 0.9rem;
+  margin-bottom: 0.5rem;
+}
+.tp-footer__social {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 1rem;
+  flex-wrap: wrap;
+}
+.tp-footer__social-btn {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.4rem 1rem;
+  border-radius: 9999px;
+  border: 1.5px solid rgba(255, 253, 248, 0.3);
+  font-size: 0.8rem;
+  color: var(--color-milk);
+  text-decoration: none;
+  transition: all 0.2s;
+}
+.tp-footer__social-btn:hover {
+  border-color: var(--color-milk);
+  background: rgba(255, 253, 248, 0.1);
+}
+.tp-footer__bottom {
+  padding-top: 1.5rem;
+  border-top: 1px solid rgba(255, 253, 248, 0.1);
+  font-size: 0.8rem;
+  color: rgba(255, 253, 248, 0.4);
+  text-align: center;
+}
+
+/* =====================================================
+   GONE HOME SECTION
+   ===================================================== */
+.gone-section {
+  background: var(--color-honey);
+  padding: clamp(3rem, 6vw, 5rem) var(--gutter);
+}
+.gone-row {
+  display: flex;
+  align-items: center;
+  gap: 3rem;
+  flex-wrap: wrap;
+}
+.gone-pups {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+.gone-pup {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+.gone-pup__photo {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 3px solid white;
+  box-shadow: 0 0 0 2px var(--color-cocoa);
+  position: relative;
+}
+.gone-pup__photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.gone-pup__badge {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  background: white;
+  border: 1.5px solid var(--color-bark);
+  border-radius: 9999px;
+  padding: 1px 6px;
+  font-size: 0.6rem;
+  font-weight: 700;
+  color: var(--color-bark);
+  white-space: nowrap;
+}
+.gone-pup__name {
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-align: center;
+}
+
+/* =====================================================
+   HAPPY FAMILIES GRID
+   ===================================================== */
+.families-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+.family-card {
+  border-radius: 1.25rem;
+  overflow: hidden;
+  border: 2px solid var(--color-crust);
+  aspect-ratio: 4/3;
+  position: relative;
+}
+.family-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s ease;
+}
+.family-card:hover img {
+  transform: scale(1.05);
+}
+
+/* =====================================================
+   CONTACT / VISIT SECTION
+   ===================================================== */
+.contact-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3rem;
+  align-items: start;
+}
+
+/* =====================================================
+   MOBILE MENU
+   ===================================================== */
+.mobile-menu {
+  position: fixed;
+  inset: 0;
+  z-index: 90;
+  background: var(--color-honey);
+  display: flex;
+  flex-direction: column;
+  padding: 1.5rem var(--gutter);
+  overflow-y: auto;
+}
+.mobile-menu__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2.5rem;
+}
+.mobile-menu__nav {
+  flex: 1;
+}
+.mobile-menu__link {
+  display: block;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: clamp(2.2rem, 10vw, 3.2rem);
+  color: var(--color-cocoa);
+  text-decoration: none;
+  padding: 0.3rem 0;
+  line-height: 1.1;
+  transition: color 0.2s;
+}
+.mobile-menu__link:hover, .mobile-menu__link.active {
+  color: var(--color-toffee);
+}
+
+/* =====================================================
+   ANIMATIONS
+   ===================================================== */
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-8px); }
+}
+@keyframes pulse-paw {
+  0%, 100% { opacity: 0.6; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.15); }
+}
+@keyframes spin-slow {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+@keyframes shimmer {
+  0% { background-position: -400px 0; }
+  100% { background-position: 400px 0; }
+}
+
+.floating {
+  animation: float 3s ease-in-out infinite;
+}
+
+/* =====================================================
+   RESPONSIVE
+   ===================================================== */
+@media (max-width: 1024px) {
+  .tp-header__nav {
+    display: none;
+  }
+  .tp-header__wa {
+    display: none;
+  }
+  .tp-footer__grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 900px) {
+  .tp-hero {
+    min-height: auto;
+    gap: 0.95rem;
+  }
+  .tp-hero-lineup {
+    justify-content: flex-start;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .tp-hero-lineup::-webkit-scrollbar {
+    display: none;
+  }
+  .tp-hero-door-item .tp-door__frame {
+    width: 120px;
+  }
+}
+
+@media (max-width: 768px) {
+  .tp-hero {
+    min-height: auto;
+  }
+  .contact-grid {
+    grid-template-columns: 1fr;
+  }
+  .gone-row {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .tp-footer__grid {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .puppy-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem 1rem;
+  }
+}
+
+/* =====================================================
+   SCROLLBAR
+   ===================================================== */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--color-honey); }
+::-webkit-scrollbar-thumb { background: var(--color-toffee); border-radius: 9999px; }
+
+/* =====================================================
+   UTILS
+   ===================================================== */
+.gutter {
+  padding-left: var(--gutter);
+  padding-right: var(--gutter);
+}
+.text-toffee { color: var(--color-toffee); }
+.text-cocoa { color: var(--color-cocoa); }
+.text-bark { color: var(--color-bark); }
+
+/* =====================================================
+   MEET THE PUPS — 3D WOODEN DOOR OPEN/CLOSE SECTION
+   ===================================================== */
+.tp-meet-section {
+  background: var(--color-honey);
+  padding-top: clamp(3rem, 7vw, 5rem);
+  position: relative;
+  overflow: hidden;
+}
+
+.tp-meet-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 2.5rem;
+}
+
+.tp-meet-stage {
+  display: flex;
+  align-items: flex-end;
+  padding: 0 var(--gutter);
+  gap: 2.5rem;
+  position: relative;
+}
+
+.tp-meet-mascot {
+  flex-shrink: 0;
+  margin-bottom: -10px;
+  z-index: 6;
+  will-change: transform;
+}
+
+.tp-meet-lineup {
+  display: flex;
+  align-items: flex-end;
+  gap: clamp(1.5rem, 3vw, 2.75rem);
+  list-style: none;
+  margin: 0;
+  padding: 0 3rem 0 0;
+  flex-shrink: 0;
+  will-change: transform;
+}
+
+.tp-door-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.tp-door__header {
+  margin-bottom: 0.85rem;
+  text-align: center;
+  max-width: 175px;
+}
+
+.tp-door__name {
+  font-weight: 800;
+  font-size: 1.15rem;
+  line-height: 1.15;
+  margin: 0;
+  color: var(--color-cocoa);
+  transition: color 0.2s ease;
+}
+.tp-door-item:hover .tp-door__name {
+  color: var(--color-bark);
+}
+
+.tp-door__sub {
+  font-size: 0.78rem;
+  color: var(--color-cocoa-70);
+  text-align: center;
+  margin: 4px 0 0;
+  line-height: 1.35;
+}
+
+/* 3D Door Wrapper */
+.tp-door {
+  position: relative;
+  display: block;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  color: var(--color-cocoa);
+}
+
+.tp-door__frame {
+  position: relative;
+  width: 175px;
+  height: 235px;
+  border-radius: 88px 88px 0 0;
+  border: 3px solid var(--color-cocoa);
+  border-bottom: none;
+  background: #2a170e;
+  overflow: hidden;
+  perspective: 950px;
+}
+
+.tp-door__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.5s ease;
+}
+.tp-door:hover .tp-door__img {
+  transform: scale(1.05);
+}
+
+/* Hinged Wooden Door Leaf */
+.tp-door__leaf {
+  position: absolute;
+  inset: 0;
+  border-radius: 85px 85px 0 0;
+  transform-origin: left center;
+  transform: rotateY(0deg);
+  transition: transform 0.55s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.55s ease;
+  box-shadow: inset -6px 0 14px rgba(0, 0, 0, 0.18);
+  z-index: 2;
+}
+
+/* Swings open inward on hover or keyboard focus */
+.tp-door:hover .tp-door__leaf,
+.tp-door:focus-visible .tp-door__leaf {
+  transform: rotateY(-74deg);
+  box-shadow: 10px 0 22px rgba(42, 23, 14, 0.38);
+}
+
+/* Decorative inner arch molding */
+.tp-door__panel {
+  position: absolute;
+  inset: 14px 14px 0 14px;
+  border: 2px solid rgba(42, 23, 14, 0.25);
+  border-bottom: none;
+  border-radius: 74px 74px 0 0;
+  pointer-events: none;
+}
+
+/* Paw print window on upper door */
+.tp-door__paw {
+  position: absolute;
+  top: 42px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 34px;
+  height: 34px;
+  pointer-events: none;
+}
+
+/* Brass doorknob on right edge */
+.tp-door__knob {
+  position: absolute;
+  right: 14px;
+  top: 56%;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #f5c35b;
+  border: 2px solid var(--color-cocoa);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
+}
+
+/* Tilted 'Available' Pill Badge on top-right rim */
+.tp-door__status {
+  position: absolute;
+  top: 30px;
+  right: -12px;
+  transform: rotate(9deg);
+  background: #fffdf8;
+  color: var(--color-cocoa);
+  border: 2px solid var(--color-cocoa);
+  border-radius: 9999px;
+  padding: 2px 11px;
+  font-size: 0.74rem;
+  font-weight: 700;
+  white-space: nowrap;
+  z-index: 4;
+  box-shadow: 0 2px 6px rgba(42, 23, 14, 0.12);
+  transition: transform 0.25s ease;
+}
+.tp-door:hover .tp-door__status {
+  transform: rotate(4deg) scale(1.04);
+}
+
+/* Wooden Baseboard Trim Strip at Bottom */
+.tp-meet-floor {
+  height: 54px;
+  width: 100%;
+  background-color: #eab06a;
+  border-top: 3px solid var(--color-cocoa);
+  background-image: repeating-linear-gradient(
+    90deg,
+    transparent 0px,
+    transparent 94px,
+    rgba(42, 23, 14, 0.18) 94px,
+    rgba(42, 23, 14, 0.18) 96px
+  );
+  position: relative;
+  z-index: 3;
+}
+
+/* Hero Door Frame Override (keeps hero doors open without wooden leaf) */
+.tp-hero-door-item .tp-door__frame {
+  width: clamp(120px, 11vw, 155px);
+  border-radius: 80px 80px 0 0;
+  border-bottom: none;
+}
+
+@media (max-width: 768px) {
+  .tp-meet-mascot {
+    display: none;
+  }
+  .tp-meet-stage .tp-door__frame {
+    width: 150px;
+    height: 205px;
+  }
+}
+
+/* =====================================================
+   PUPPY DETAIL PAGE (Scrapbook / Passport Layout)
+   ===================================================== */
+.tp-detail-page {
+  min-height: 100svh;
+  background-color: #ece3d5;
+  padding-top: var(--header-h);
+  padding-bottom: 5rem;
+}
+
+.tp-detail-scallop {
+  width: 100%;
+  margin-top: -1px;
+}
+
+.tp-detail-top {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  margin-top: 1.5rem;
+  margin-bottom: 1.75rem;
+}
+
+.tp-detail-bookmark {
+  width: 16px;
+  height: 54px;
+  background: var(--color-bark);
+  border-radius: 4px;
+  margin-left: calc(var(--gutter) * -1);
+  flex-shrink: 0;
+}
+
+.tp-detail-crumb {
+  font-size: 0.85rem;
+  color: var(--color-cocoa-70);
+  margin-bottom: 0.45rem;
+}
+.tp-detail-crumb a {
+  color: var(--color-cocoa-70);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.tp-detail-crumb strong {
+  color: var(--color-cocoa);
+  font-weight: 600;
+}
+
+.tp-detail-hello {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  color: var(--color-bark);
+  font-size: 1.35rem;
+}
+
+.tp-detail-num {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 2px solid var(--color-cocoa);
+  background: #fffdf8;
+  color: var(--color-cocoa);
+  font-family: 'Inter', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* 2-Column Layout */
+.tp-detail-grid {
+  display: grid;
+  grid-template-columns: 1.35fr 1fr;
+  gap: clamp(2rem, 4vw, 3.5rem);
+  align-items: start;
+}
+
+/* Left Stacked Notebook Photo Frame */
+.tp-detail-photo-stack {
+  position: relative;
+  padding-right: 14px;
+}
+.tp-detail-photo-stack::before,
+.tp-detail-photo-stack::after {
+  content: '';
+  position: absolute;
+  top: 6px;
+  bottom: 0;
+  right: 7px;
+  left: 12px;
+  background: #fffdf8;
+  border: 2.5px solid var(--color-cocoa);
+  border-radius: 1.35rem;
+  z-index: 1;
+}
+.tp-detail-photo-stack::after {
+  top: 12px;
+  right: 0;
+  left: 20px;
+  z-index: 0;
+}
+
+.tp-detail-photo-card {
+  position: relative;
+  z-index: 2;
+  border: 2.5px solid var(--color-cocoa);
+  border-radius: 1.35rem;
+  overflow: hidden;
+  background: #fffdf8;
+  aspect-ratio: 4 / 3.4;
+}
+
+.tp-detail-photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Right Passport / Certificate Card */
+.tp-detail-info-card {
+  position: relative;
+  background: #fffdf8;
+  border: 2.5px solid var(--color-cocoa);
+  border-radius: 1.75rem;
+  padding: 2.25rem 2rem 2rem;
+  box-shadow: 0 8px 0 rgba(42, 23, 14, 0.08);
+}
+
+/* Top-Left Binder Ring */
+.tp-detail-ring {
+  position: absolute;
+  top: -14px;
+  left: 14px;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: #fbe3b4;
+  border: 2.5px solid var(--color-cocoa);
+  box-shadow: inset 0 0 0 5px #fffdf8;
+}
+
+/* Top-Right Peeking Teddy Mascot */
+.tp-detail-mascot {
+  position: absolute;
+  top: -42px;
+  right: 26px;
+  z-index: 4;
+}
+
+.tp-detail-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: var(--color-honey);
+  padding: 0.35rem 0.9rem;
+  border-radius: 9999px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--color-cocoa);
+  margin-bottom: 1rem;
+}
+
+.tp-detail-name {
+  font-size: clamp(2.4rem, 4vw, 3.3rem);
+  line-height: 1;
+  margin: 0 0 0.35rem;
+  color: var(--color-cocoa);
+}
+
+.tp-detail-breed {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--color-cocoa-70);
+  margin: 0 0 1.75rem;
+}
+
+/* 2x2 Spec Grid */
+.tp-detail-specs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.25rem 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.tp-detail-spec {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.tp-detail-spec__label {
+  font-size: 1.15rem;
+  color: var(--color-cocoa-70);
+}
+
+.tp-detail-spec__val {
+  font-size: 0.98rem;
+  font-weight: 700;
+  color: var(--color-cocoa);
+}
+
+.tp-detail-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.tp-detail-btn {
+  width: 100%;
+  padding: 0.9rem 1.5rem;
+  font-size: 0.95rem;
+}
+
+.tp-detail-enquiry-form {
+  margin-top: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+  padding-top: 1rem;
+  border-top: 1.5px dashed var(--color-crust);
+}
+
+.tp-detail-enquiry-form input {
+  padding: 0.7rem 1rem;
+  border-radius: 0.75rem;
+  border: 2px solid var(--color-cocoa);
+  font-family: inherit;
+  font-size: 0.9rem;
+  background: white;
+}
+
+@media (max-width: 900px) {
+  .tp-detail-grid {
+    grid-template-columns: 1fr;
+    gap: 3.5rem;
+  }
+}
