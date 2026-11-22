@@ -29,17 +29,22 @@ function PawSvg({ size = 18, fill = '#b85d28', stroke = '#2a170e' }) {
 export default function PawCursorTrail() {
   const [prints, setPrints] = useState([]);
   const [pos, setPos] = useState({ x: -100, y: -100, visible: false });
+  const [isHoveringClickable, setIsHoveringClickable] = useState(false);
   const lastPrintRef = useRef({ x: null, y: null, leftStep: true });
   const idRef = useRef(0);
 
   useEffect(() => {
-    // Touch-only devices par custom cursor skip karein
     const isFinePointer = window.matchMedia('(pointer: fine)').matches;
     if (!isFinePointer) return;
 
     const handleMouseMove = (e) => {
       const { clientX: x, clientY: y } = e;
       setPos({ x, y, visible: true });
+
+      const clickable = e.target?.closest?.(
+        'a, button, [role="button"], input, select, textarea'
+      );
+      setIsHoveringClickable(Boolean(clickable));
 
       const prev = lastPrintRef.current;
       if (prev.x === null || prev.y === null) {
@@ -51,8 +56,7 @@ export default function PawCursorTrail() {
       const dy = y - prev.y;
       const dist = Math.hypot(dx, dy);
 
-      // Har 48px move hone par ek paw print chhodein
-      if (dist >= 48) {
+      if (dist >= 42) {
         const angleDeg = (Math.atan2(dy, dx) * 180) / Math.PI + 90;
         const tilt = prev.leftStep ? -14 : 14;
         const id = ++idRef.current;
@@ -60,7 +64,7 @@ export default function PawCursorTrail() {
         lastPrintRef.current = { x, y, leftStep: !prev.leftStep };
 
         setPrints((curr) => [
-          ...curr.slice(-18), // Maximum 18 prints ek saath
+          ...curr.slice(-5),
           {
             id,
             x,
@@ -71,7 +75,7 @@ export default function PawCursorTrail() {
 
         setTimeout(() => {
           setPrints((curr) => curr.filter((item) => item.id !== id));
-        }, 850);
+        }, 420);
       }
     };
 
@@ -88,50 +92,71 @@ export default function PawCursorTrail() {
     };
   }, []);
 
-  if (!pos.visible && prints.length === 0) return null;
-
   return (
-    <div
-      aria-hidden="true"
-      style={{
-        position: 'fixed',
-        inset: 0,
-        pointerEvents: 'none',
-        zIndex: 9999,
-        overflow: 'hidden',
-      }}
-    >
-      {/* Peeche chhute hue paw prints */}
-      {prints.map((print) => (
-        <div
-          key={print.id}
-          className="paw-print-fade"
-          style={{
-            position: 'fixed',
-            left: print.x,
-            top: print.y,
-            transform: `translate(-50%, -50%) rotate(${print.rotation}deg)`,
-          }}
-        >
-          <PawSvg size={18} fill="#e8b878" stroke="#2a170e" />
-        </div>
-      ))}
+    <>
+      <style>{`
+        @media (pointer: fine) {
+          html, body, *, *::before, *::after {
+            cursor: none !important;
+          }
+        }
+        @keyframes pawPrintFade {
+          0% {
+            opacity: 0.75;
+            transform: translate(-50%, -50%) scale(0.95);
+          }
+          100% {
+            opacity: 0;
+            transform: translate(-50%, -50%) scale(0.65);
+          }
+        }
+        .paw-print-item {
+          animation: pawPrintFade 0.42s ease-out forwards;
+        }
+      `}</style>
 
-      {/* Active cursor paw */}
-      {pos.visible && (
+      {(pos.visible || prints.length > 0) && (
         <div
+          aria-hidden="true"
           style={{
             position: 'fixed',
-            left: pos.x,
-            top: pos.y,
-            transform: 'translate(-45%, -45%)',
-            filter: 'drop-shadow(0 2px 3px rgba(42, 23, 14, 0.25))',
-            transition: 'transform 0.05s linear',
+            inset: 0,
+            pointerEvents: 'none',
+            zIndex: 99999,
+            overflow: 'hidden',
           }}
         >
-          <PawSvg size={24} fill="#b85d28" stroke="#2a170e" />
+          {prints.map((print) => (
+            <div
+              key={print.id}
+              className="paw-print-item"
+              style={{
+                position: 'fixed',
+                left: print.x,
+                top: print.y,
+                rotate: `${print.rotation}deg`,
+              }}
+            >
+              <PawSvg size={16} fill="#e8b878" stroke="#2a170e" />
+            </div>
+          ))}
+
+          {pos.visible && (
+            <div
+              style={{
+                position: 'fixed',
+                left: pos.x,
+                top: pos.y,
+                transform: `translate(-45%, -45%) scale(${isHoveringClickable ? 1.18 : 1})`,
+                filter: 'drop-shadow(0 2px 3px rgba(42, 23, 14, 0.25))',
+                transition: 'transform 0.1s ease-out',
+              }}
+            >
+              <PawSvg size={22} fill="#b85d28" stroke="#2a170e" />
+            </div>
+          )}
         </div>
       )}
-    </div>
+    </>
   );
 }
