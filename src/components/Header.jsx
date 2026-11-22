@@ -111,11 +111,11 @@ export default function Header() {
           <Link
             className="tp-header__brand"
             to="/"
-            aria-label="PebblePaws U.A.E. — home"
+            aria-label="PebblePups U.A.E. — home"
             style={{ justifySelf: 'start', flexShrink: 0 }}
           >
             <BrandLogo />
-            <span className="font-plush tp-header__name">PebblePaws</span>
+            <span className="font-plush tp-header__name">PebblePups</span>
           </Link>
 
           {/* Desktop nav (Centered + Vertically Balanced) */}
