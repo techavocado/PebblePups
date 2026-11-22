@@ -9,6 +9,7 @@ import IntroCurtain from './components/IntroCurtain';
 
 import HomePage from './pages/HomePage';
 import PuppiesPage from './pages/PuppiesPage';
+import PuppyDetailPage from './pages/PuppyDetailPage';
 import HappyFamiliesPage from './pages/HappyFamiliesPage';
 import HowItWorksPage from './pages/HowItWorksPage';
 import FaqPage from './pages/FaqPage';
@@ -55,6 +56,7 @@ function AppContent() {
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/puppies" element={<PuppiesPage />} />
+            <Route path="/puppies/:id" element={<PuppyDetailPage />} />
             <Route path="/happy-families" element={<HappyFamiliesPage />} />
             <Route path="/how-it-works" element={<HowItWorksPage />} />
             <Route path="/faq" element={<FaqPage />} />

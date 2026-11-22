@@ -27,16 +27,16 @@ function CorkboardNoteItem({ faq, index, totalCount }) {
   return (
     <motion.div
       id={`faq-${index}`}
+      className="faq-note-wrapper"
       initial={{ opacity: 0, y: 12 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.12 }}
       transition={{ duration: 0.25, delay: Math.min(index * 0.03, 0.2) }}
       style={{
         position: 'relative',
-        marginLeft: styleCfg.marginLeft,
-        marginRight: styleCfg.marginRight,
-        transform: `rotate(${open ? 0 : styleCfg.tilt})`,
-        transition: 'transform 0.22s ease',
+        '--note-ml': styleCfg.marginLeft,
+        '--note-mr': styleCfg.marginRight,
+        '--note-tilt': open ? '0deg' : styleCfg.tilt,
         zIndex: open ? 15 : 1,
       }}
     >
@@ -58,7 +58,7 @@ function CorkboardNoteItem({ faq, index, totalCount }) {
         }}
       />
 
-      {/* Large Note Card */}
+      {/* Note Card */}
       <div
         style={{
           position: 'relative',
@@ -73,15 +73,15 @@ function CorkboardNoteItem({ faq, index, totalCount }) {
           type="button"
           onClick={() => setOpen((prev) => !prev)}
           aria-expanded={open}
+          className="faq-note-btn"
           style={{
             width: '100%',
             background: 'transparent',
             border: 'none',
-            padding: '1.12rem 1.6rem',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'space-between',
-            gap: '1.25rem',
+            gap: '0.85rem',
             textAlign: 'left',
             cursor: 'pointer',
             color: '#2a170e',
@@ -90,9 +90,9 @@ function CorkboardNoteItem({ faq, index, totalCount }) {
           <span
             className="font-plush"
             style={{
-              fontSize: 'clamp(1.04rem, 1.65vw, 1.24rem)',
+              fontSize: 'clamp(0.98rem, 1.65vw, 1.24rem)',
               fontWeight: 700,
-              lineHeight: 1.3,
+              lineHeight: 1.32,
             }}
           >
             {faq.question}
@@ -104,7 +104,7 @@ function CorkboardNoteItem({ faq, index, totalCount }) {
             style={{
               color: '#9b4a1e',
               flexShrink: 0,
-              marginRight: 8,
+              marginRight: 4,
               transform: open ? 'rotate(180deg)' : 'rotate(0deg)',
               transition: 'transform 0.22s ease',
             }}
@@ -119,8 +119,8 @@ function CorkboardNoteItem({ faq, index, totalCount }) {
               position: 'absolute',
               right: 0,
               bottom: 0,
-              width: 16,
-              height: 16,
+              width: 14,
+              height: 14,
               background: '#ebd8b7',
               borderTop: '1.8px solid #2a170e',
               borderLeft: '1.8px solid #2a170e',
@@ -140,10 +140,10 @@ function CorkboardNoteItem({ faq, index, totalCount }) {
               style={{ overflow: 'hidden' }}
             >
               <div
+                className="faq-note-answer"
                 style={{
-                  padding: '0.25rem 1.6rem 1.2rem',
                   borderTop: '1px dashed rgba(42, 23, 14, 0.22)',
-                  fontSize: '0.94rem',
+                  fontSize: '0.92rem',
                   lineHeight: 1.62,
                   color: 'rgba(42, 23, 14, 0.86)',
                 }}
@@ -174,28 +174,21 @@ export default function FaqPage() {
   const totalNotes = faqs?.length || 9;
 
   return (
-    <div style={{ background: '#8c4a20', color: '#fffdf8' }}>
+    <div style={{ background: '#8c4a20', color: '#fffdf8', overflowX: 'hidden' }}>
       <section
         style={{
-          padding: 'clamp(1.75rem, 3.5vw, 2.5rem) var(--gutter) clamp(2.25rem, 4vw, 3.25rem)',
+          padding: 'calc(var(--header-h, 4.5rem) + clamp(1.25rem, 3vw, 2.25rem)) var(--gutter) clamp(2.25rem, 4vw, 3.25rem)',
           maxWidth: 1360,
           margin: '0 auto',
         }}
       >
-        <div
-          style={{
-            display: 'grid',
-            gridTemplateColumns: 'minmax(290px, 380px) minmax(0, 1fr)',
-            gap: '2.5rem',
-            alignItems: 'start',
-          }}
-        >
+        <div className="faq-layout-grid">
           {/* Left Column: Heading + Description + Search + Mascot + Ask CTA */}
-          <div>
+          <div className="faq-sidebar">
             <h1
               className="font-plush"
               style={{
-                fontSize: 'clamp(2.85rem, 6.2vw, 4.5rem)',
+                fontSize: 'clamp(2.5rem, 6.2vw, 4.5rem)',
                 lineHeight: 0.96,
                 margin: '0 0 0.9rem',
                 color: '#fffdf8',
@@ -227,14 +220,14 @@ export default function FaqPage() {
                 fontSize: '0.94rem',
                 color: 'rgba(255, 253, 248, 0.88)',
                 lineHeight: 1.55,
-                margin: '0 0 1.85rem',
-                maxWidth: 360,
+                margin: '0 0 1.5rem',
+                maxWidth: 380,
               }}
             >
               Can&apos;t find what you&apos;re looking for? Message us on WhatsApp — our team is available 24/7.
             </p>
 
-            <div style={{ maxWidth: 300 }}>
+            <div className="faq-search-block">
               <label
                 htmlFor="faq-search-input"
                 className="font-scrawl"
@@ -274,7 +267,7 @@ export default function FaqPage() {
                     outline: 'none',
                     background: 'transparent',
                     color: '#2a170e',
-                    fontSize: '0.86rem',
+                    fontSize: '0.88rem',
                     width: '100%',
                   }}
                 />
@@ -285,83 +278,73 @@ export default function FaqPage() {
                 style={{
                   fontSize: '0.88rem',
                   color: 'rgba(255, 253, 248, 0.85)',
-                  margin: '0.6rem 0 2rem',
+                  margin: '0.6rem 0 1.25rem',
                 }}
               >
-                {totalNotes} notes on the board
+                {filteredFaqs.length === totalNotes
+                  ? `${totalNotes} notes on the board`
+                  : `Showing ${filteredFaqs.length} of ${totalNotes} notes`}
               </p>
 
-              {/* Mascot + ? Bubble */}
-              <div style={{ position: 'relative', width: 118, marginBottom: '1.1rem' }}>
-                <span
-                  aria-hidden="true"
-                  className="font-plush"
+              {/* Mascot + Ask CTA Row */}
+              <div className="faq-cta-row">
+                <div style={{ position: 'relative', width: 98, flexShrink: 0 }}>
+                  <span
+                    aria-hidden="true"
+                    className="font-plush"
+                    style={{
+                      position: 'absolute',
+                      top: -8,
+                      right: 8,
+                      width: 28,
+                      height: 28,
+                      borderRadius: '50%',
+                      background: '#fffdf8',
+                      color: '#2a170e',
+                      border: '2px solid #2a170e',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      fontSize: '0.88rem',
+                      fontWeight: 800,
+                      boxShadow: '0 3px 0 rgba(42, 23, 14, 0.24)',
+                      zIndex: 2,
+                    }}
+                  >
+                    ?
+                  </span>
+                  <TeddyRunner style={{ width: 86, height: 72 }} />
+                </div>
+
+                <a
+                  href={getWhatsAppLink("Hi PebblePups! I have a question about your puppies.")}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  id="faq-whatsapp-cta"
                   style={{
-                    position: 'absolute',
-                    top: -10,
-                    right: 12,
-                    width: 32,
-                    height: 32,
-                    borderRadius: '50%',
-                    background: '#fffdf8',
-                    color: '#2a170e',
-                    border: '2px solid #2a170e',
-                    display: 'flex',
+                    display: 'inline-flex',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    fontSize: '0.95rem',
-                    fontWeight: 800,
-                    boxShadow: '0 3px 0 rgba(42, 23, 14, 0.24)',
-                    zIndex: 2,
+                    padding: '0.68rem 1.35rem',
+                    borderRadius: 999,
+                    background: '#1f7a4c',
+                    color: '#fffdf8',
+                    border: '2px solid #12482c',
+                    fontWeight: 700,
+                    fontSize: '0.88rem',
+                    textDecoration: 'none',
+                    boxShadow: '0 4px 0 rgba(18, 72, 44, 0.45)',
+                    whiteSpace: 'nowrap',
                   }}
                 >
-                  ?
-                </span>
-                <TeddyRunner style={{ width: 96, height: 80 }} />
+                  Ask your own question
+                </a>
               </div>
-
-              <a
-                href={getWhatsAppLink("Hi PebblePups! I have a question about your puppies.")}
-                target="_blank"
-                rel="noopener noreferrer"
-                id="faq-whatsapp-cta"
-                style={{
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  padding: '0.68rem 1.4rem',
-                  borderRadius: 999,
-                  background: '#1f7a4c',
-                  color: '#fffdf8',
-                  border: '2px solid #12482c',
-                  fontWeight: 700,
-                  fontSize: '0.88rem',
-                  textDecoration: 'none',
-                  boxShadow: '0 4px 0 rgba(18, 72, 44, 0.45)',
-                }}
-              >
-                Ask your own question
-              </a>
             </div>
           </div>
 
-          {/* Right Column: Corkboard Aligned Flush With Top */}
-          <div
-            style={{
-              backgroundColor: '#cfa372',
-              backgroundImage:
-                'radial-gradient(rgba(92, 52, 24, 0.22) 1px, transparent 1px), radial-gradient(rgba(255, 245, 224, 0.24) 1px, transparent 1px)',
-              backgroundPosition: '0 0, 7px 7px',
-              backgroundSize: '14px 14px',
-              border: '3px solid #2a170e',
-              borderRadius: '1.2rem',
-              padding: '1.35rem clamp(1.35rem, 2.8vw, 2.25rem) clamp(1.75rem, 3.2vw, 2.5rem)',
-              boxShadow: 'inset 0 0 0 5px #8e562b, 0 8px 0 rgba(42, 23, 14, 0.24)',
-              display: 'flex',
-              flexDirection: 'column',
-              gap: '1.15rem',
-            }}
-          >
+          {/* Right Column: Corkboard */}
+          <div className="faq-corkboard">
             {filteredFaqs.length > 0 ? (
               filteredFaqs.map((faq, i) => (
                 <CorkboardNoteItem
@@ -403,6 +386,86 @@ export default function FaqPage() {
           />
         </svg>
       </div>
+
+      {/* Responsive Rules */}
+      <style>{`
+        .faq-layout-grid {
+          display: grid;
+          grid-template-columns: minmax(280px, 370px) minmax(0, 1fr);
+          gap: 2.5rem;
+          align-items: start;
+        }
+        .faq-search-block {
+          max-width: 320px;
+        }
+        .faq-cta-row {
+          display: flex;
+          flex-direction: column;
+          align-items: flex-start;
+          gap: 0.9rem;
+        }
+        .faq-corkboard {
+          width: 100%;
+          min-width: 0;
+          background-color: #cfa372;
+          background-image:
+            radial-gradient(rgba(92, 52, 24, 0.22) 1px, transparent 1px),
+            radial-gradient(rgba(255, 245, 224, 0.24) 1px, transparent 1px);
+          background-position: 0 0, 7px 7px;
+          background-size: 14px 14px;
+          border: 3px solid #2a170e;
+          border-radius: 1.2rem;
+          padding: 1.5rem clamp(1.25rem, 2.8vw, 2.25rem) clamp(1.75rem, 3.2vw, 2.5rem);
+          box-shadow: inset 0 0 0 5px #8e562b, 0 8px 0 rgba(42, 23, 14, 0.24);
+          display: flex;
+          flex-direction: column;
+          gap: 1.15rem;
+        }
+        .faq-note-wrapper {
+          margin-left: var(--note-ml, 0%);
+          margin-right: var(--note-mr, 0%);
+          transform: rotate(var(--note-tilt, 0deg));
+          transition: transform 0.22s ease;
+        }
+        .faq-note-btn {
+          padding: 1.1rem 1.45rem;
+        }
+        .faq-note-answer {
+          padding: 0.65rem 1.45rem 1.15rem;
+        }
+
+        @media (max-width: 900px) {
+          .faq-layout-grid {
+            grid-template-columns: 1fr;
+            gap: 1.75rem;
+          }
+          .faq-search-block {
+            max-width: 100%;
+          }
+          .faq-cta-row {
+            flex-direction: row;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+          }
+          .faq-corkboard {
+            padding: 1.35rem 0.9rem 1.65rem;
+            box-shadow: inset 0 0 0 4px #8e562b, 0 6px 0 rgba(42, 23, 14, 0.24);
+            gap: 1rem;
+          }
+          .faq-note-wrapper {
+            margin-left: 0 !important;
+            margin-right: 0 !important;
+            transform: rotate(0deg) !important;
+          }
+          .faq-note-btn {
+            padding: 0.95rem 1rem;
+          }
+          .faq-note-answer {
+            padding: 0.6rem 1rem 1rem;
+          }
+        }
+      `}</style>
     </div>
   );
 }

@@ -1,10 +1,9 @@
 import { useState, useRef } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import TeddyRunner from '../components/TeddyRunner';
-import PuppyDetailModal from '../components/PuppyDetailModal';
 import {
-  puppies, gonePuppies, processSteps, faqs,
+  puppies, gonePuppies, processSteps,
   happyFamiliesTestimonials, getWhatsAppLink
 } from '../data/puppiesData';
 
@@ -216,12 +215,31 @@ function HeroSection({ onPuppyClick }) {
   );
 }
 
-// ─── MEET THE PUPS ────────────────────────────────────────
+// ─── MEET THE PUPS (Fixed 2-Finger Trackpad & Touch Scroll) ───
 function MeetThePups({ onPuppyClick }) {
-  const featured = puppies.slice(0, 4);
+  const scrollRef = useRef(null);
+  const featured = puppies;
+
+  const handleWheel = (e) => {
+    const el = scrollRef.current;
+    if (!el) return;
+    // Trackpad 2-finger horizontal swipe (deltaX) naturally chalta hai,
+    // aur agar user vertical wheel/swipe kare jab section par cursor ho toh horizontally scroll karega
+    if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) {
+      return;
+    }
+    if (e.deltaY !== 0) {
+      const atStart = el.scrollLeft <= 0 && e.deltaY < 0;
+      const atEnd = el.scrollLeft + el.clientWidth >= el.scrollWidth - 1 && e.deltaY > 0;
+      if (!atStart && !atEnd) {
+        e.preventDefault();
+        el.scrollLeft += e.deltaY;
+      }
+    }
+  };
 
   return (
-    <section className="tp-meet-section">
+    <section className="tp-meet-section" style={{ overflowX: 'clip' }}>
       <div className="tp-meet-header gutter">
         <div>
           <h2 className="section-title font-plush">Meet the pups</h2>
@@ -229,17 +247,30 @@ function MeetThePups({ onPuppyClick }) {
             Real puppies, real photos, looking for their families right now.
           </p>
         </div>
+
         <Link to="/puppies" className="btn btn-toffee" style={{ flexShrink: 0 }}>
           See all available puppies
         </Link>
       </div>
 
-      <div className="tp-meet-stage">
+      <div
+        className="tp-meet-stage"
+        style={{
+          position: 'relative',
+          width: '100%',
+          maxWidth: '100vw',
+          overflow: 'visible',
+        }}
+      >
         <div className="tp-meet-mascot" aria-hidden="true">
           <TeddyRunner style={{ width: 135, height: 115 }} />
         </div>
 
-        <ul className="tp-meet-lineup">
+        <ul
+          ref={scrollRef}
+          onWheel={handleWheel}
+          className="tp-meet-lineup tp-meet-lineup--scroll"
+        >
           {featured.map((pup, idx) => (
             <PuppyDoor key={pup.id} puppy={pup} index={idx} onClick={onPuppyClick} />
           ))}
@@ -247,6 +278,36 @@ function MeetThePups({ onPuppyClick }) {
       </div>
 
       <div className="tp-meet-floor" aria-hidden="true" />
+
+      <style>{`
+        .tp-meet-lineup--scroll {
+          display: flex !important;
+          flex-wrap: nowrap !important;
+          width: 100% !important;
+          max-width: 100% !important;
+          overflow-x: auto !important;
+          overflow-y: visible !important;
+          overscroll-behavior-x: contain;
+          touch-action: pan-x pan-y;
+          -webkit-overflow-scrolling: touch;
+          scrollbar-width: none;
+          gap: clamp(1.1rem, 2.2vw, 1.75rem);
+          padding: 0.5rem var(--gutter) 0.25rem;
+          justify-content: flex-start !important;
+        }
+        .tp-meet-lineup--scroll::-webkit-scrollbar {
+          display: none;
+        }
+        .tp-meet-lineup--scroll .tp-door-item {
+          flex: 0 0 auto !important;
+        }
+        @media (max-width: 640px) {
+          .tp-meet-lineup--scroll {
+            gap: 1rem;
+            padding-right: 2rem;
+          }
+        }
+      `}</style>
     </section>
   );
 }
@@ -587,64 +648,64 @@ function HowItWorksTeaser() {
 
       {/* Bottom: Your Puppy Journey + Mascot ("coming?") + WhatsApp Card */}
       <div
-  style={{
-    display: 'grid',
-    gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
-    gap: '2.5rem',
-    alignItems: 'center',
-    maxWidth: 1120,
-    margin: '0 auto',
-  }}
->
-  <div>
-    <div
-      style={{
-        position: 'relative',
-        display: 'inline-block',
-        paddingRight: 'clamp(5.2rem, 7.5vw, 6.4rem)',
-      }}
-    >
-      <h2
-        className="font-plush"
         style={{
-          fontSize: 'clamp(2.2rem, 5vw, 3.6rem)',
-          lineHeight: 1.05,
-          margin: '0 0 0.75rem',
-        }}
-      >
-        Your puppy journey
-      </h2>
-
-      <div
-        aria-hidden="true"
-        style={{
-          position: 'absolute',
-          right: 0,
-          bottom: -14,
-          display: 'flex',
-          flexDirection: 'column',
+          display: 'grid',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+          gap: '2.5rem',
           alignItems: 'center',
-          pointerEvents: 'none',
+          maxWidth: 1120,
+          margin: '0 auto',
         }}
       >
-        <span
-          style={{
-            background: '#fffdf8',
-            border: '2px solid #2a170e',
-            borderRadius: 999,
-            padding: '2px 10px',
-            fontSize: '0.75rem',
-            fontWeight: 700,
-            marginBottom: -4,
-            boxShadow: '0 2px 0 #2a170e',
-            whiteSpace: 'nowrap',
-          }}
-        >
-          coming?
-        </span>
-        <TeddyRunner style={{ width: 80, height: 68 }} />
-      </div>
-    </div>
+        <div>
+          <div
+            style={{
+              position: 'relative',
+              display: 'inline-block',
+              paddingRight: 'clamp(5.2rem, 7.5vw, 6.4rem)',
+            }}
+          >
+            <h2
+              className="font-plush"
+              style={{
+                fontSize: 'clamp(2.2rem, 5vw, 3.6rem)',
+                lineHeight: 1.05,
+                margin: '0 0 0.75rem',
+              }}
+            >
+              Your puppy journey
+            </h2>
+
+            <div
+              aria-hidden="true"
+              style={{
+                position: 'absolute',
+                right: 0,
+                bottom: -14,
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                pointerEvents: 'none',
+              }}
+            >
+              <span
+                style={{
+                  background: '#fffdf8',
+                  border: '2px solid #2a170e',
+                  borderRadius: 999,
+                  padding: '2px 10px',
+                  fontSize: '0.75rem',
+                  fontWeight: 700,
+                  marginBottom: -4,
+                  boxShadow: '0 2px 0 #2a170e',
+                  whiteSpace: 'nowrap',
+                }}
+              >
+                coming?
+              </span>
+              <TeddyRunner style={{ width: 80, height: 68 }} />
+            </div>
+          </div>
 
           <p style={{ fontSize: '0.95rem', color: 'rgba(42,23,14,0.8)', maxWidth: 460, margin: '0 0 2rem' }}>
             A premium, step-by-step concierge experience. We make adoption simple, secure, and purely joyful.
@@ -1405,28 +1466,24 @@ function FaqTeaser() {
   );
 }
 
-// ─── GONE HOME SECTION (Scrapbook Keepsake Portraits + Guaranteed Unique Photos) ───
+// ─── GONE HOME SECTION (Non-clickable Keepsake Portraits) ───
 function GoneHomeSection() {
-  // Saare available image pools collect karein (puppies + happyFamilies + gonePuppies)
   const rawPool = [
     ...puppies.map((p) => p?.image),
     ...happyFamiliesTestimonials.map((h) => h?.image),
     ...gonePuppies.map((g) => g?.image),
   ].filter((img) => typeof img === 'string' && img.trim().length > 0);
 
-  // Unique URLs ka ordered list
   const uniquePool = Array.from(new Set(rawPool));
   const used = new Set();
 
   const distinctGonePups = gonePuppies.map((pup, idx) => {
     let pick = null;
 
-    // 1. Pehle koi aisi unique image lo jo abhi tak use nahi hui
     const nextUnused = uniquePool.find((url) => !used.has(url));
     if (nextUnused) {
       pick = nextUnused;
     } else if (uniquePool.length > 0) {
-      // 2. Agar pool chhota hai toh har card ke liye alag step se rotate karo
       pick = uniquePool[(idx * 2 + 1) % uniquePool.length];
     } else {
       pick = pup?.image || '';
@@ -1513,7 +1570,7 @@ function GoneHomeSection() {
           </Link>
         </div>
 
-        {/* Right: Framed Memory Portraits */}
+        {/* Right: Framed Memory Portraits (Static — No Link/Click) */}
         <div
           style={{
             display: 'flex',
@@ -1532,88 +1589,78 @@ function GoneHomeSection() {
                 flexDirection: 'column',
                 alignItems: 'center',
                 transform: `rotate(${tilts[idx % tilts.length]})`,
+                cursor: 'default',
               }}
             >
-              <Link
-                to={`/puppies/${pup.id}`}
+              {/* Circular Keepsake Frame */}
+              <div
                 style={{
-                  textDecoration: 'none',
-                  color: 'inherit',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  alignItems: 'center',
+                  position: 'relative',
+                  width: 116,
+                  height: 116,
+                  borderRadius: '50%',
+                  padding: 4,
+                  background: '#fffdf8',
+                  border: '2.5px solid #2a170e',
+                  boxShadow: '0 6px 0 #2a170e',
+                  marginBottom: '0.75rem',
                 }}
               >
-                {/* Circular Keepsake Frame */}
-                <div
+                {pup.displayImage && (
+                  <img
+                    src={pup.displayImage}
+                    alt={pup.name}
+                    style={{
+                      width: '100%',
+                      height: '100%',
+                      borderRadius: '50%',
+                      objectFit: 'cover',
+                      objectPosition: 'center',
+                      display: 'block',
+                      border: '1.5px solid rgba(42,23,14,0.2)',
+                      transform: 'translateZ(0)',
+                    }}
+                    onError={(e) => {
+                      e.currentTarget.style.display = 'none';
+                    }}
+                  />
+                )}
+
+                {/* Sticker Pill at Bottom */}
+                <span
+                  className="font-scrawl"
                   style={{
-                    position: 'relative',
-                    width: 116,
-                    height: 116,
-                    borderRadius: '50%',
-                    padding: 4,
+                    position: 'absolute',
+                    bottom: -8,
+                    left: '50%',
+                    transform: 'translateX(-50%) rotate(-3deg)',
                     background: '#fffdf8',
-                    border: '2.5px solid #2a170e',
-                    boxShadow: '0 6px 0 #2a170e',
-                    marginBottom: '0.75rem',
+                    color: '#b85d28',
+                    border: '2px solid #2a170e',
+                    borderRadius: 999,
+                    padding: '1px 10px',
+                    fontSize: '0.72rem',
+                    fontWeight: 800,
+                    whiteSpace: 'nowrap',
+                    boxShadow: '0 2px 0 #2a170e',
                   }}
                 >
-                  {pup.displayImage && (
-                    <img
-                      src={pup.displayImage}
-                      alt={pup.name}
-                      style={{
-                        width: '100%',
-                        height: '100%',
-                        borderRadius: '50%',
-                        objectFit: 'cover',
-                        objectPosition: 'center',
-                        display: 'block',
-                        border: '1.5px solid rgba(42,23,14,0.2)',
-                        transform: 'translateZ(0)',
-                      }}
-                      onError={(e) => {
-                        e.currentTarget.style.display = 'none';
-                      }}
-                    />
-                  )}
-
-                  {/* Sticker Pill at Bottom */}
-                  <span
-                    className="font-scrawl"
-                    style={{
-                      position: 'absolute',
-                      bottom: -8,
-                      left: '50%',
-                      transform: 'translateX(-50%) rotate(-3deg)',
-                      background: '#fffdf8',
-                      color: '#b85d28',
-                      border: '2px solid #2a170e',
-                      borderRadius: 999,
-                      padding: '1px 10px',
-                      fontSize: '0.72rem',
-                      fontWeight: 800,
-                      whiteSpace: 'nowrap',
-                      boxShadow: '0 2px 0 #2a170e',
-                    }}
-                  >
-                    gone home ♥
-                  </span>
-                </div>
-
-                {/* Puppy Name + Breed */}
-                <span
-                  className="font-plush"
-                  style={{ fontSize: '1rem', fontWeight: 800, color: '#2a170e', marginTop: 2 }}
-                >
-                  {pup.name}
+                  gone home ♥
                 </span>
-                {pup.breed && pup.breed !== pup.name && (
-                  <span style={{ fontSize: '0.75rem', color: 'rgba(42,23,14,0.65)', marginTop: 1 }}>
-                    {pup.breed}
-                  </span>
-                )}
-              </Link>
+              </div>
+
+              {/* Puppy Name + Breed */}
+              <span
+                className="font-plush"
+                style={{ fontSize: '1rem', fontWeight: 800, color: '#2a170e', marginTop: 2 }}
+              >
+                {pup.name}
+              </span>
+              {pup.breed && pup.breed !== pup.name && (
+                <span style={{ fontSize: '0.75rem', color: 'rgba(42,23,14,0.65)', marginTop: 1 }}>
+                  {pup.breed}
+                </span>
+              )}
             </motion.div>
           ))}
         </div>
@@ -1827,7 +1874,7 @@ function CtaBanner() {
           Enquire on WhatsApp
         </a>
         <Link
-          to="/visit"
+          to="/contact"
           className="btn"
           id="cta-visit"
           style={{
@@ -1847,12 +1894,16 @@ function CtaBanner() {
 
 // ─── HOME PAGE ────────────────────────────────────────────
 export default function HomePage() {
-  const [selectedPuppy, setSelectedPuppy] = useState(null);
+  const navigate = useNavigate();
+
+  const handlePuppyClick = (puppy) => {
+    navigate(`/puppies/${puppy.id}`);
+  };
 
   return (
     <>
-      <HeroSection onPuppyClick={setSelectedPuppy} />
-      <MeetThePups onPuppyClick={setSelectedPuppy} />
+      <HeroSection onPuppyClick={handlePuppyClick} />
+      <MeetThePups onPuppyClick={handlePuppyClick} />
       <HowItWorksTeaser />
       <ProcessSection />
       <TrustSection />
@@ -1860,8 +1911,6 @@ export default function HomePage() {
       <FaqTeaser />
       <GoneHomeSection />
       <CtaBanner />
-
-      <PuppyDetailModal puppy={selectedPuppy} onClose={() => setSelectedPuppy(null)} />
     </>
   );
 }

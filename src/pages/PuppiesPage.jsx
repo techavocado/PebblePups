@@ -1,8 +1,7 @@
-import { useState, useMemo } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { useState, useMemo, useEffect } from 'react';
+import { useSearchParams, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Video } from 'lucide-react';
-import PuppyDetailModal from '../components/PuppyDetailModal';
 import { puppies, gonePuppies, happyFamiliesTestimonials } from '../data/puppiesData';
 import TeddyRunner from '../components/TeddyRunner';
 
@@ -421,10 +420,18 @@ function PuppyFilters({ filters, setFilters }) {
 // ─── PUPPIES PAGE ─────────────────────────────────────────
 export default function PuppiesPage() {
   const [searchParams] = useSearchParams();
+  const navigate = useNavigate();
   const tab = searchParams.get('tab') || 'available';
   const [activeTab, setActiveTab] = useState(tab === 'gone' ? 'gone' : 'available');
-  const [selectedPuppy, setSelectedPuppy] = useState(null);
   const [filters, setFilters] = useState({ location: 'Everywhere', breed: '', gender: '' });
+
+  useEffect(() => {
+    setActiveTab(tab === 'gone' ? 'gone' : 'available');
+  }, [tab]);
+
+  const handlePuppyClick = (puppy) => {
+    navigate(`/puppies/${puppy.id}`);
+  };
 
   const filteredPuppies = useMemo(() => {
     return puppies.filter(p => {
@@ -438,37 +445,37 @@ export default function PuppiesPage() {
   }, [filters]);
 
   // Distinct image list for "Already gone home" with guaranteed varied photos
-const distinctGoneList = useMemo(() => {
-  const uniquePool = Array.from(
-    new Set(
-      [
-        ...puppies.map((p) => p?.image),
-        ...happyFamiliesTestimonials.map((h) => h?.image),
-        ...gonePuppies.map((g) => g?.image),
-      ].filter((img) => typeof img === 'string' && img.trim().length > 0)
-    )
-  );
+  const distinctGoneList = useMemo(() => {
+    const uniquePool = Array.from(
+      new Set(
+        [
+          ...puppies.map((p) => p?.image),
+          ...happyFamiliesTestimonials.map((h) => h?.image),
+          ...gonePuppies.map((g) => g?.image),
+        ].filter((img) => typeof img === 'string' && img.trim().length > 0)
+      )
+    );
 
-  const used = new Set();
+    const used = new Set();
 
-  return gonePuppies.map((pup, idx) => {
-    let chosen = uniquePool.find((img) => !used.has(img)) || null;
+    return gonePuppies.map((pup, idx) => {
+      let chosen = uniquePool.find((img) => !used.has(img)) || null;
 
-    if (!chosen && uniquePool.length > 0) {
-      chosen = uniquePool[(idx * 2 + 1) % uniquePool.length];
-    }
+      if (!chosen && uniquePool.length > 0) {
+        chosen = uniquePool[(idx * 2 + 1) % uniquePool.length];
+      }
 
-    if (!chosen) {
-      chosen = pup?.image || '';
-    }
+      if (!chosen) {
+        chosen = pup?.image || '';
+      }
 
-    if (chosen) {
-      used.add(chosen);
-    }
+      if (chosen) {
+        used.add(chosen);
+      }
 
-    return { ...pup, displayImg: chosen };
-  });
-}, []);
+      return { ...pup, displayImg: chosen };
+    });
+  }, []);
 
   return (
     <div>
@@ -618,7 +625,7 @@ const distinctGoneList = useMemo(() => {
 
               <div className="puppy-grid" id="puppy-grid">
                 {filteredPuppies.map((pup, idx) => (
-                  <PuppyCard key={pup.id} puppy={pup} index={idx} onClick={setSelectedPuppy} />
+                  <PuppyCard key={pup.id} puppy={pup} index={idx} onClick={handlePuppyClick} />
                 ))}
               </div>
 
@@ -723,8 +730,6 @@ const distinctGoneList = useMemo(() => {
           </div>
         </div>
       </section>
-
-      <PuppyDetailModal puppy={selectedPuppy} onClose={() => setSelectedPuppy(null)} />
     </div>
   );
 }
