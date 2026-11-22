@@ -182,3 +182,29 @@
     border-right-color: var(--border);
   }
 }
+
+@keyframes pawPrintFade {
+  0% {
+    opacity: 0.78;
+    scale: 1;
+  }
+  100% {
+    opacity: 0;
+    scale: 0.72;
+  }
+}
+
+.paw-print-fade {
+  animation: pawPrintFade 0.85s ease-out forwards;
+}
+
+/* Sirf fine pointer (mouse/trackpad) par default cursor hide karein */
+@media (pointer: fine) {
+  html,
+  body,
+  *,
+  *::before,
+  *::after {
+    cursor: none !important;
+  }
+}

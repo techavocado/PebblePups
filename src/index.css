@@ -1622,3 +1622,12 @@ body {
     gap: 3.5rem;
   }
 }
+@media (pointer: fine) {
+  html,
+  body,
+  *,
+  *::before,
+  *::after {
+    cursor: none !important;
+  }
+}
