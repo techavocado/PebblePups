@@ -1,163 +1,102 @@
-import { useEffect, useRef, useState } from 'react';
+import { useState, useEffect } from 'react';
+import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
+import { AnimatePresence, motion } from 'framer-motion';
+import './index.css';
 
-function PawSvg({ size = 18, fill = '#b85d28', stroke = '#2a170e' }) {
+import Header from './components/Header';
+import Footer from './components/Footer';
+import IntroCurtain from './components/IntroCurtain';
+import PawCursorTrail from './components/PawCursorTrail';
+
+import HomePage from './pages/HomePage';
+import PuppiesPage from './pages/PuppiesPage';
+import PuppyDetailPage from './pages/PuppyDetailPage';
+import HappyFamiliesPage from './pages/HappyFamiliesPage';
+import HowItWorksPage from './pages/HowItWorksPage';
+import FaqPage from './pages/FaqPage';
+import ContactPage from './pages/ContactPage';
+
+// Scroll to top on route change
+function ScrollToTop() {
+  const { pathname } = useLocation();
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+  return null;
+}
+
+// Page transition wrapper
+function PageTransition({ children }) {
+  const { pathname } = useLocation();
   return (
-    <svg
-      width={size}
-      height={size}
-      viewBox="0 0 64 64"
-      aria-hidden="true"
-      style={{ display: 'block' }}
-    >
-      <ellipse
-        cx="32"
-        cy="39"
-        rx="10.5"
-        ry="8.5"
-        fill={fill}
-        stroke={stroke}
-        strokeWidth="3.5"
-      />
-      <circle cx="19" cy="26" r="4.5" fill={fill} stroke={stroke} strokeWidth="3" />
-      <circle cx="28" cy="20" r="4.5" fill={fill} stroke={stroke} strokeWidth="3" />
-      <circle cx="37" cy="20" r="4.5" fill={fill} stroke={stroke} strokeWidth="3" />
-      <circle cx="45" cy="26" r="4.5" fill={fill} stroke={stroke} strokeWidth="3" />
-    </svg>
+    <AnimatePresence mode="wait">
+      <motion.div
+        key={pathname}
+        initial={{ opacity: 0, y: 12 }}
+        animate={{ opacity: 1, y: 0 }}
+        exit={{ opacity: 0, y: -8 }}
+        transition={{ duration: 0.3, ease: 'easeInOut' }}
+      >
+        {children}
+      </motion.div>
+    </AnimatePresence>
   );
 }
 
-export default function PawCursorTrail() {
-  const [prints, setPrints] = useState([]);
-  const [pos, setPos] = useState({ x: -100, y: -100, visible: false });
-  const [isHoveringClickable, setIsHoveringClickable] = useState(false);
-  const lastPrintRef = useRef({ x: null, y: null, leftStep: true });
-  const idRef = useRef(0);
+function AppContent() {
+  return (
+    <>
+      <ScrollToTop />
+      <Header />
+      <main
+        id="main"
+        tabIndex={-1}
+        style={{ position: 'relative', paddingTop: 'var(--header-h)', outline: 'none' }}
+      >
+        <PageTransition>
+          <Routes>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/puppies" element={<PuppiesPage />} />
+            <Route path="/puppies/:id" element={<PuppyDetailPage />} />
+            <Route path="/happy-families" element={<HappyFamiliesPage />} />
+            <Route path="/how-it-works" element={<HowItWorksPage />} />
+            <Route path="/faq" element={<FaqPage />} />
+            <Route path="/contact" element={<ContactPage />} />
+            {/* Fallback */}
+            <Route path="*" element={<HomePage />} />
+          </Routes>
+        </PageTransition>
+      </main>
+      <Footer />
+    </>
+  );
+}
 
+export default function App() {
+  const [showCurtain, setShowCurtain] = useState(true);
+  const [curtainDone, setCurtainDone] = useState(false);
+
+  // Auto-dismiss curtain after 2.2s
   useEffect(() => {
-    const isFinePointer = window.matchMedia('(pointer: fine)').matches;
-    if (!isFinePointer) return;
-
-    const handleMouseMove = (e) => {
-      const { clientX: x, clientY: y } = e;
-      setPos({ x, y, visible: true });
-
-      // Check agar cursor kisi clickable element par hai toh paw thoda bada dikhe
-      const clickable = e.target?.closest?.('a, button, [role="button"], input, select, textarea');
-      setIsHoveringClickable(Boolean(clickable));
-
-      const prev = lastPrintRef.current;
-      if (prev.x === null || prev.y === null) {
-        lastPrintRef.current = { x, y, leftStep: true };
-        return;
-      }
-
-      const dx = x - prev.x;
-      const dy = y - prev.y;
-      const dist = Math.hypot(dx, dy);
-
-      if (dist >= 48) {
-        const angleDeg = (Math.atan2(dy, dx) * 180) / Math.PI + 90;
-        const tilt = prev.leftStep ? -14 : 14;
-        const id = ++idRef.current;
-
-        lastPrintRef.current = { x, y, leftStep: !prev.leftStep };
-
-        setPrints((curr) => [
-          ...curr.slice(-18),
-          {
-            id,
-            x,
-            y,
-            rotation: angleDeg + tilt,
-          },
-        ]);
-
-        setTimeout(() => {
-          setPrints((curr) => curr.filter((item) => item.id !== id));
-        }, 850);
-      }
-    };
-
-    const handleMouseLeave = () => {
-      setPos((p) => ({ ...p, visible: false }));
-    };
-
-    window.addEventListener('mousemove', handleMouseMove, { passive: true });
-    document.addEventListener('mouseleave', handleMouseLeave);
-
-    return () => {
-      window.removeEventListener('mousemove', handleMouseMove);
-      document.removeEventListener('mouseleave', handleMouseLeave);
-    };
+    const t = setTimeout(() => {
+      setShowCurtain(false);
+    }, 2200);
+    return () => clearTimeout(t);
   }, []);
 
   return (
-    <>
-      <style>{`
-        @media (pointer: fine) {
-          html, body, *, *::before, *::after {
-            cursor: none !important;
-          }
-        }
-        @keyframes pawPrintFade {
-          0% {
-            opacity: 0.78;
-            transform: translate(-50%, -50%) scale(1);
-          }
-          100% {
-            opacity: 0;
-            transform: translate(-50%, -50%) scale(0.7);
-          }
-        }
-        .paw-print-item {
-          animation: pawPrintFade 0.85s ease-out forwards;
-        }
-      `}</style>
+    <BrowserRouter>
+      <PawCursorTrail />
 
-      {(pos.visible || prints.length > 0) && (
-        <div
-          aria-hidden="true"
-          style={{
-            position: 'fixed',
-            inset: 0,
-            pointerEvents: 'none',
-            zIndex: 99999,
-            overflow: 'hidden',
-          }}
-        >
-          {/* Peeche chhute hue paw prints */}
-          {prints.map((print) => (
-            <div
-              key={print.id}
-              className="paw-print-item"
-              style={{
-                position: 'fixed',
-                left: print.x,
-                top: print.y,
-                rotate: `${print.rotation}deg`,
-              }}
-            >
-              <PawSvg size={18} fill="#e8b878" stroke="#2a170e" />
-            </div>
-          ))}
+      {/* Intro curtain — only on first load */}
+      <AnimatePresence>
+        {showCurtain && (
+          <IntroCurtain onComplete={() => setCurtainDone(true)} />
+        )}
+      </AnimatePresence>
 
-          {/* Active cursor paw (clickable elements par thoda zoom hoga) */}
-          {pos.visible && (
-            <div
-              style={{
-                position: 'fixed',
-                left: pos.x,
-                top: pos.y,
-                transform: `translate(-45%, -45%) scale(${isHoveringClickable ? 1.2 : 1})`,
-                filter: 'drop-shadow(0 2px 3px rgba(42, 23, 14, 0.25))',
-                transition: 'transform 0.12s ease-out',
-              }}
-            >
-              <PawSvg size={24} fill="#b85d28" stroke="#2a170e" />
-            </div>
-          )}
-        </div>
-      )}
-    </>
+      {/* Main app — always rendered, curtain slides away */}
+      <AppContent />
+    </BrowserRouter>
   );
 }
